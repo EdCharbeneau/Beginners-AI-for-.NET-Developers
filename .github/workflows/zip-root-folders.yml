@@ -1,5 +1,8 @@
 name: Zip Root Folders
 
+permissions:
+  contents: write
+
 on:
   push:
     branches:
@@ -88,3 +91,50 @@ jobs:
           name: ${{ steps.create-zip.outputs.artifact_name }}
           path: ${{ steps.create-zip.outputs.zip_path }}
           if-no-files-found: error
+
+  create-release:
+    needs: zip-and-upload
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download all folder zip artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: folder-zip-*
+          path: release-assets
+          merge-multiple: true
+
+      - name: Build release metadata
+        id: release-meta
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $timestamp = Get-Date -Format 'yyyyMMdd-HHmmss'
+          $tag = "zips-$timestamp"
+          $name = "Root Folder Zips $timestamp"
+
+          $files = Get-ChildItem -Path 'release-assets' -File -Filter '*.zip' | Sort-Object Name
+          if (-not $files) {
+            throw 'No zip files were downloaded for release creation.'
+          }
+
+          $bodyPath = Join-Path (Get-Location) 'release-notes.md'
+          "Automated zip release for commit $env:GITHUB_SHA`n" | Out-File -FilePath $bodyPath -Encoding utf8
+          "Included files:" | Out-File -FilePath $bodyPath -Encoding utf8 -Append
+          foreach ($file in $files) {
+            $sizeKB = [math]::Round($file.Length / 1KB, 2)
+            "- $($file.Name) ($sizeKB KB)" | Out-File -FilePath $bodyPath -Encoding utf8 -Append
+          }
+
+          "tag=$tag" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "name=$name" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "body_path=$bodyPath" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
+      - name: Create release and upload zips
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.release-meta.outputs.tag }}
+          name: ${{ steps.release-meta.outputs.name }}
+          body_path: ${{ steps.release-meta.outputs.body_path }}
+          files: release-assets/*.zip
