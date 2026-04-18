@@ -10,7 +10,7 @@ on:
 
 jobs:
   discover-folders:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     outputs:
       folders: ${{ steps.find-folders.outputs.folders }}
@@ -44,7 +44,7 @@ jobs:
 
   zip-and-upload:
     needs: discover-folders
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         folder: ${{ fromJson(needs.discover-folders.outputs.folders) }}
