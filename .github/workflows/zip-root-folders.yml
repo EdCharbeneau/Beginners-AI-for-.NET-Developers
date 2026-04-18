@@ -1,0 +1,88 @@
+name: Zip Root Folders
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  discover-folders:
+    runs-on: windows-latest
+
+    outputs:
+      folders: ${{ steps.find-folders.outputs.folders }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Find top-level folders to zip
+        id: find-folders
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $root = Get-Location
+
+          $folders = Get-ChildItem -Path $root -Directory |
+            Where-Object {
+              $_.Name -ne 'scripts' -and
+              -not $_.Name.StartsWith('.')
+            } |
+            Select-Object -ExpandProperty Name
+
+          if (-not $folders) {
+            Write-Host 'No folders matched the zip criteria.'
+            $json = '["__none__"]'
+          } else {
+            $json = @($folders) | ConvertTo-Json -Compress
+          }
+
+          "folders=$json" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
+  zip-and-upload:
+    needs: discover-folders
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        folder: ${{ fromJson(needs.discover-folders.outputs.folders) }}
+
+    steps:
+      - name: Checkout
+        if: matrix.folder != '__none__'
+        uses: actions/checkout@v4
+
+      - name: Create zip for folder
+        id: create-zip
+        if: matrix.folder != '__none__'
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $folderName = '${{ matrix.folder }}'
+          $folderPath = Join-Path (Get-Location) $folderName
+          $outputDir = Join-Path (Get-Location) 'zips'
+          New-Item -ItemType Directory -Path $outputDir -Force | Out-Null
+
+          $safeName = ($folderName -replace '[\\/:*?"<>|]', '_')
+          $zipPath = Join-Path $outputDir ("$safeName.zip")
+
+          if (Test-Path $zipPath) {
+            Remove-Item $zipPath -Force
+          }
+
+          Compress-Archive -Path (Join-Path $folderPath '*') -DestinationPath $zipPath -Force
+          Write-Host "Created $zipPath"
+
+          $artifactName = "folder-zip-$safeName"
+          "artifact_name=$artifactName" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "zip_path=$zipPath" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
+      - name: Upload zip artifact
+        if: matrix.folder != '__none__'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.create-zip.outputs.artifact_name }}
+          path: ${{ steps.create-zip.outputs.zip_path }}
+          if-no-files-found: error
