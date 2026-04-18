@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Adding a basic conversational memory - End/">
+    <Project Path="Adding a basic conversational memory - End/MyFirstChat.csproj" />
+  </Folder>
+  <Folder Name="/Adding a basic conversational memory - Start/">
+    <Project Path="Adding a basic conversational memory - Start/MyFirstChat.csproj" />
+  </Folder>
+</Solution>

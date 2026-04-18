@@ -1,0 +1,15 @@
+﻿<div class="assistant-message flex items-start space-x-2">
+    <img src="/my-dotnet-bot.png"
+         alt="AI Bot"
+         class="w-8 h-8 rounded-full object-cover">
+    <div>
+        <div class="bg-white rounded-lg rounded-tl-none p-3 shadow-md max-w-md">
+            @ChildContent
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}

@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Performing tokenization and reviewing the output - End/">
+    <Project Path="Performing tokenization and reviewing the output - End/TokenVisualizer/TokenVisualizer.csproj" />
+  </Folder>
+  <Folder Name="/Performing tokenization and reviewing the output - start/">
+    <Project Path="Performing tokenization and reviewing the output - start/TokenVisualizer/TokenVisualizer.csproj" />
+  </Folder>
+</Solution>

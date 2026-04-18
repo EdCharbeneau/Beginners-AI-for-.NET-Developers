@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Creating an OpenAI Vector Store - End/">
+    <Project Path="Creating an OpenAI Vector Store - End/MyFirstChatUI.csproj" />
+  </Folder>
+  <Folder Name="/Creating an OpenAI Vector Store - start/">
+    <Project Path="Creating an OpenAI Vector Store - start/MyFirstChatUI.csproj" />
+  </Folder>
+</Solution>

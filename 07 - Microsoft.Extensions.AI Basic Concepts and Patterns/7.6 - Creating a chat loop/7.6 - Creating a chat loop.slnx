@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Creating a chat loop - End/">
+    <Project Path="Creating a chat loop - End/MyFirstChat.csproj" />
+  </Folder>
+  <Folder Name="/Creating a chat loop - Start/">
+    <Project Path="Creating a chat loop - Start/MyFirstChat.csproj" />
+  </Folder>
+</Solution>

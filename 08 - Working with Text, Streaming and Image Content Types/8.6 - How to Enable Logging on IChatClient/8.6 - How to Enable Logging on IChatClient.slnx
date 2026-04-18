@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/How to enable logging - End/">
+    <Project Path="How to enable logging - End/MyFirstChatUI.csproj" />
+  </Folder>
+  <Folder Name="/How to enable logging - Start/">
+    <Project Path="How to enable logging - Start/MyFirstChatUI.csproj" />
+  </Folder>
+</Solution>

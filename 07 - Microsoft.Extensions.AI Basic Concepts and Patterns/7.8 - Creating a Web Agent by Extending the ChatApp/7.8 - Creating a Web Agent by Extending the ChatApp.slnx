@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Creating a Web Agent by Extending the ChatApp - End/">
+    <Project Path="Creating a Web Agent by Extending the ChatApp - End/MyFirstChat.csproj" />
+  </Folder>
+  <Folder Name="/Creating a Web Agent by Extending the ChatApp - Start/">
+    <Project Path="Creating a Web Agent by Extending the ChatApp - Start/MyFirstChat.csproj" />
+  </Folder>
+</Solution>

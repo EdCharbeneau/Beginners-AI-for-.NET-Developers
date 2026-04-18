@@ -1,0 +1,29 @@
+﻿@page "/"
+@using Microsoft.ML.Tokenizers
+@rendermode InteractiveServer
+
+<PageTitle>Home</PageTitle>
+
+@* Get a string from the user *@
+<TextInputForm OnSubmit="OnGetText" />
+
+@* Display the tokenized string with colors *@
+<Visualizer Tokens="@Tokens" />
+
+@code {
+    Tokenizer tokenizer = default!; //Set during initialization;
+
+    IReadOnlyList<EncodedToken> Tokens { get; set; } = [];
+
+    private void OnGetText(string value)
+    {
+        Tokens = tokenizer.EncodeToTokens(value, out _);
+    }
+
+    protected override void OnInitialized()
+    {
+        // Initialize the tokenizer for the `gpt-4o` model. This instance should be cached for all subsequent use.
+        tokenizer = TiktokenTokenizer.CreateForEncoding("o200k_base");
+    }
+
+}

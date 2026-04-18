@@ -1,0 +1,82 @@
+﻿@page "/"
+@page "/chat"
+@using Microsoft.Extensions.AI
+
+<PageTitle>Home</PageTitle>
+<ChatMessageWrapper>
+    @foreach (var m in history)
+    {
+        if (m.Role == ChatRole.Assistant)
+        {
+            @foreach (var content in m.Contents)
+            {
+                if (content is TextContent textContent)
+                {
+                    <AssistantMessage>
+                        <MarkdownText Text="@m.Text" />
+                    </AssistantMessage>
+                }
+            }
+        }
+    }
+    <LoadingIndicator IsLoading="@isLoading" StreamingText="" />
+</ChatMessageWrapper>
+<ChatInput OnSendMessage="HandleSendMessage" 
+    IsLoading="@isLoading" />
+
+@code {
+
+    private IChatClient ai;
+    public Chat(IChatClient client)
+    {
+        ai = client;
+    }
+    List<ChatMessage> history = [];
+
+    bool isLoading = false;
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        // Logic to handle the sent message
+        // Initialize the chat client or any other necessary services
+        ChatMessage systemMessage = new ChatMessage(
+        ChatRole.System,
+        "You are a helpful assistant."
+        );
+        history.Add(systemMessage);
+        ChatResponse response = await ai.GetResponseAsync(systemMessage);
+        history.AddMessages(response);
+        isLoading = false;
+    }
+
+    private async Task HandleSendMessage(string message)
+    {
+        isLoading = true;
+        // Logic to handle the sent message
+        isLoading = false;
+    }
+
+    @* private void HandleSendImage(byte[] imageBytes, string mediaType)
+    {
+
+    }
+
+    private async Task GetFileData(InputFileChangeEventArgs e)
+    {
+        isLoading = true;
+
+        if (e is null) return;
+        // Fully flush out the uploaded file Stream into a MemoryStream then copy into the byte[]
+        var file = e.File;
+        var fileContent = new StreamContent(file.OpenReadStream());
+
+        using var ms = new MemoryStream();
+
+        byte[]? imgBytes = null;
+        await fileContent.CopyToAsync(ms);
+        imgBytes = ms.ToArray();
+
+        HandleSendImage(imgBytes, file.ContentType);
+        isLoading = false;
+    } *@
+}

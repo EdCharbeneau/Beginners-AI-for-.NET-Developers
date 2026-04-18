@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Using image content - End/">
+    <Project Path="Using image content - End/MyFirstChatUI.csproj" />
+  </Folder>
+  <Folder Name="/Using image content - Start/">
+    <Project Path="Using image content - Start/MyFirstChatUI.csproj" />
+  </Folder>
+</Solution>

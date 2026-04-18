@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    <link rel="stylesheet" href="@Assets["app.css"]" />
+    <link rel="stylesheet" href="@Assets["MyFirstChatUI.styles.css"]" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <ImportMap />
+    <HeadOutlet @rendermode="renderMode" />
+</head>
+
+<body class="bg-gray-100 h-screen flex flex-col">
+    <Routes @rendermode="renderMode" />
+    <script src="_framework/blazor.web.js"></script>
+</body>
+
+</html>
+@code {
+    IComponentRenderMode renderMode = new InteractiveServerRenderMode(prerender: false);
+}

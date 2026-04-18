@@ -1,0 +1,46 @@
+﻿<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    @if (isEmpty)
+    {
+        <ListEmptyState OnLoad="LoadData" />
+    }
+    else
+    {
+        int imageIndex = 0;
+        foreach (var item in Data)
+        {
+            <Card Data="item" ImageUrl="@images[imageIndex]" />
+            imageIndex = imageIndex >= images.Length ? 0 : imageIndex + 1;
+        }
+    }
+    <CardSkeleton IsLoading="IsLoading" />
+</div>
+
+@code {
+    [Parameter]
+    public List<CardData> Data { get; set; } = new List<CardData>();
+
+    [Parameter]
+    public bool IsLoading { get; set; } = false;
+
+    private bool isEmpty => !Data.Any();
+
+    [Parameter]
+    public EventCallback OnLoad { get; set; }
+
+    private void LoadData()
+    {
+        OnLoad.InvokeAsync();
+    }
+
+    private string[] images =
+{
+            "https://images.unsplash.com/photo-1562051036-e0eea191d42f?w=400&h=300&fit=crop",
+            "https://images.unsplash.com/photo-1501346220112-1dbcb625301c?w=400&h=300&fit=crop",
+            "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=400&h=300&fit=crop",
+            "https://images.unsplash.com/photo-1561986810-4f3ba2f46ceb?w=400&h=300&fit=crop",
+            "https://images.unsplash.com/photo-1509785307050-d4066910ec1e?w=400&h=300&fit=crop",
+            "https://images.unsplash.com/photo-1525088553748-01d6e210e00b?w=400&h=300&fit=crop",
+            "https://images.unsplash.com/photo-1495774856032-8b90bbb32b32?w=400&h=300&fit=crop",
+            "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&h=300&fit=crop"
+        };
+}

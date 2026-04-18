@@ -1,0 +1,28 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@using Microsoft.ML.Tokenizers
+
+<PageTitle>Home</PageTitle>
+
+@* Get a string from the user *@
+<TextInputForm OnSubmit="OnGetText" />
+
+@* Display the tokenized string with colors *@
+<div>
+    <Visualizer />
+</div>
+
+@code {
+    string inputText = string.Empty;
+
+    private void OnGetText(string value)
+    {
+        inputText = value;
+    }
+
+    protected override void OnInitialized()
+    {
+        // Initialize the tokenizer for the `gpt-4o` model. This instance should be cached for all subsequent use.
+    }
+
+}

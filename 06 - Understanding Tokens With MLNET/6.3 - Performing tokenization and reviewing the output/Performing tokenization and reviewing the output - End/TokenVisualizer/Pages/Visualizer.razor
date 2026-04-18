@@ -1,0 +1,41 @@
+@using Microsoft.ML.Tokenizers
+
+<div>
+    <!-- outputs -->
+    <b>Tokenized Text</b>
+    <div class="card k-border-success">
+        <p class="highlight">
+            @if (Tokens is not null)
+            {
+                foreach (var t in Tokens)
+                {
+                    if (showIds)
+                    {
+                        <div class="k-d-flex">
+                            <span style="--highlight-color:@colors[colorIndex]">@t.Value</span>
+                            <span style="--highlight-color:@colors[colorIndex]">@t.Id</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <span style="--highlight-color:@colors[colorIndex]">@t.Value</span>
+                    }
+                    colorIndex = colorIndex >= 4 ? 0 : colorIndex + 1;
+                }
+            }
+        </p>
+        <p>Token Count: @Tokens.Count</p>
+        <label for="showIds">Show Token IDs</label>
+        <input type="checkbox" id="showIds" @bind="@showIds" />
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public IReadOnlyList<EncodedToken>? Tokens { get; set; } = [];
+    public bool showIds;
+
+    int colorIndex = 0;
+    private string[] colors => new[] { "lightblue", "lightcoral", "lightgreen", "lightyellow", "lightcyan" };
+}

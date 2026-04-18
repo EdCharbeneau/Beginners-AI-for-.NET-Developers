@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Chat UI setup - End/">
+    <Project Path="Chat UI setup - End/MyFirstChatUI.csproj" />
+  </Folder>
+  <Folder Name="/Chat UI setup - Start/">
+    <Project Path="Chat UI setup - Start/MyFirstChatUI.csproj" />
+  </Folder>
+</Solution>

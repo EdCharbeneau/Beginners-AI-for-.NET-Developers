@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Creating a chat application background service - End/">
+    <Project Path="Creating a chat application background service - End/MyFirstChat.csproj" />
+  </Folder>
+  <Folder Name="/Creating a chat application background service - Start/">
+    <Project Path="Creating a chat application background service - Start/MyFirstChat.csproj" />
+  </Folder>
+</Solution>

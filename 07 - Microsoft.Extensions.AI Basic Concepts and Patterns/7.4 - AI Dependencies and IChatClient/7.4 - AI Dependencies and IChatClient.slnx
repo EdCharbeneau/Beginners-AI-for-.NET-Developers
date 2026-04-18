@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/AI Dependencies and IChatClient - End/">
+    <Project Path="AI Dependencies and IChatClient - End/MyFirstChat.csproj" />
+  </Folder>
+  <Folder Name="/AI Dependencies and IChatClient - Start/">
+    <Project Path="AI Dependencies and IChatClient - Start/MyFirstChat.csproj" />
+  </Folder>
+</Solution>

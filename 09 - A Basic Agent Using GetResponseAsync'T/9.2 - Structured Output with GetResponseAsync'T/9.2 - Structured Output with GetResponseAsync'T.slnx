@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Structured Output with GetResponseAsync'T - End/">
+    <Project Path="Structured Output with GetResponseAsync'T - End/MyFirstChatUI.csproj" />
+  </Folder>
+  <Folder Name="/Structured Output with GetResponseAsync'T - Start/">
+    <Project Path="Structured Output with GetResponseAsync'T - Start/MyFirstChatUI.csproj" />
+  </Folder>
+</Solution>

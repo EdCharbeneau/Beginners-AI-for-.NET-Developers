@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/How to use GetStreamingResponseAsync - End/">
+    <Project Path="How to use GetStreamingResponseAsync - End/MyFirstChatUI.csproj" />
+  </Folder>
+  <Folder Name="/How to use GetStreamingResponseAsync - Start/">
+    <Project Path="How to use GetStreamingResponseAsync - Start/MyFirstChatUI.csproj" />
+  </Folder>
+</Solution>

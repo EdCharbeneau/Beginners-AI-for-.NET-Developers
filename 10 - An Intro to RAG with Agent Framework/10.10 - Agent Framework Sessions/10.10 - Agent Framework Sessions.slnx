@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Agent Framework Sessions - end/">
+    <Project Path="Agent Framework Sessions - end/MyFirstChatUI.csproj" />
+  </Folder>
+  <Folder Name="/Agent Framework Sessions - Start/">
+    <Project Path="Agent Framework Sessions - Start/MyFirstChatUI.csproj" />
+  </Folder>
+</Solution>

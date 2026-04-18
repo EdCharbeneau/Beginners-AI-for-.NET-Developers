@@ -1,0 +1,51 @@
+﻿@page "/"
+@page "/chat"
+
+<PageTitle>Home</PageTitle>
+<ChatMessageWrapper>
+    <LoadingIndicator IsLoading="@isLoading" StreamingText="" />
+</ChatMessageWrapper>
+<ChatInput OnSendMessage="HandleSendMessage" 
+    IsLoading="@isLoading" />
+
+@code {
+
+    bool isLoading = false;
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        // Logic to handle the sent message
+        isLoading = false;
+    }
+
+    private async Task HandleSendMessage(string message)
+    {
+        isLoading = true;
+        // Logic to handle the sent message
+        isLoading = false;
+    }
+
+    @* private void HandleSendImage(byte[] imageBytes, string mediaType)
+    {
+
+    }
+
+    private async Task GetFileData(InputFileChangeEventArgs e)
+    {
+        isLoading = true;
+
+        if (e is null) return;
+        // Fully flush out the uploaded file Stream into a MemoryStream then copy into the byte[]
+        var file = e.File;
+        var fileContent = new StreamContent(file.OpenReadStream());
+
+        using var ms = new MemoryStream();
+
+        byte[]? imgBytes = null;
+        await fileContent.CopyToAsync(ms);
+        imgBytes = ms.ToArray();
+
+        HandleSendImage(imgBytes, file.ContentType);
+        isLoading = false;
+    } *@
+}

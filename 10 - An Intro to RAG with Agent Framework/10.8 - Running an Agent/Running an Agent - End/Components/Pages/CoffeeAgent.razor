@@ -1,0 +1,80 @@
+﻿@page "/coffee-agent"
+@using Azure.AI.OpenAI
+@using Microsoft.Agents.AI
+@using Microsoft.Extensions.AI
+@using MyFirstChatUI.Agents
+@using MyFirstChatUI.Models
+
+@inject CoffeeData CoffeeDataService
+@inject AzureOpenAIClient AzureClient
+
+<PageTitle>Coffee Data</PageTitle>
+
+<ChatMessageWrapper>
+    @foreach (ChatMessage m in history)
+    {
+        if (m.Role == ChatRole.Assistant)
+        {
+            <AssistantMessage>
+                <MarkdownText Text="@m.Text" />
+            </AssistantMessage>
+        }
+    if (m.Role == ChatRole.User)
+        {
+            <UserMessage>
+                <MarkdownText Text="@m.Text" />
+            </UserMessage>
+        }
+    }
+    <LoadingIndicator IsLoading="@isLoading" StreamingText="@streamingText" />
+</ChatMessageWrapper>
+
+<ChatInput OnSendMessage="HandleSendMessage" IsLoading="true" />
+
+@code {
+#pragma warning disable OPENAI001
+    private bool isLoading;
+    string streamingText = string.Empty;
+    private CoffeeFileAgent ai = null!;
+    List<ChatMessage> history = [];  
+
+    protected override async Task OnInitializedAsync()
+    {
+        Console.WriteLine("Agent Init");
+        isLoading = true;
+        streamingText = "Loading Coffee Agent...";
+        
+        ai = await CoffeeFileAgent.CreateAsync(AzureClient, CoffeeDataService);
+        if (ai is null) throw new InvalidOperationException("Unable to create Agent");
+
+        streamingText = string.Empty;
+        isLoading = false;
+        
+        ChatMessage assistantMessage = new ChatMessage(ChatRole.Assistant, "Ask me anything about our coffee selection."); 
+        history.Add(assistantMessage);
+    }
+
+    public async Task HandleSendMessage(string prompt)
+    {
+        isLoading = true;
+        ChatMessage? message = new ChatMessage(ChatRole.User, prompt);
+        history.Add(message);
+        List<AIAnnotation> footnotes = [];
+        await foreach (AgentResponseUpdate update in ai.Agent.RunStreamingAsync(message))
+        {
+            streamingText += ReplaceUnicodeBrackets(update.Text ?? "");
+            footnotes.AddRange(update.Contents.SelectMany(content => content.Annotations ?? []));
+            StateHasChanged();
+            await Task.Delay(1);
+        }
+        history.Add(new ChatMessage(ChatRole.Assistant, streamingText));
+        streamingText = string.Empty;
+        isLoading = false;
+        StateHasChanged();
+    }
+
+        private string ReplaceUnicodeBrackets(string content) => content.Replace("【", "[^").Replace('】', ']');
+
+
+#pragma warning restore OPENAI001
+}

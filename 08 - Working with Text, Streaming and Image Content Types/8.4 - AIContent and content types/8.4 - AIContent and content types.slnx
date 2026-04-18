@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/AIContent and content types - End/">
+    <Project Path="AIContent and content types - End/MyFirstChatUI.csproj" />
+  </Folder>
+  <Folder Name="/AIContent and content types - Start/">
+    <Project Path="AIContent and content types - Start/MyFirstChatUI.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Connecting the token visualizer - End/">
+    <Project Path="Connecting the token visualizer - End/TokenVisualizer/TokenVisualizer.csproj" />
+  </Folder>
+  <Folder Name="/Connecting the token visualizer - Start/">
+    <Project Path="Connecting the token visualizer - Start/TokenVisualizer/TokenVisualizer.csproj" />
+  </Folder>
+</Solution>

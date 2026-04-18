@@ -1,0 +1,116 @@
+﻿@page "/chat"
+@using Microsoft.Extensions.AI
+
+<PageTitle>Home</PageTitle>
+<ChatMessageWrapper>
+@foreach (var m in history)
+{
+    if (m.Role == ChatRole.Assistant)
+        {
+            @foreach (AIContent content in m.Contents)
+            {
+                if (content is TextContent textContent)
+                {
+                    <AssistantMessage>
+                        <MarkdownText Text="@textContent.Text"/>
+                    </AssistantMessage>
+                }
+            }
+        }
+    if (m.Role == ChatRole.User)
+        {
+            @foreach (AIContent content in m.Contents)
+            {
+                if (content is TextContent textContent)
+                {
+                    <UserMessage>
+                        <MarkdownText Text="@textContent.Text"/>
+                    </UserMessage>
+                }
+                if (content is DataContent dataContent)
+                {
+                    <UserMessage>
+                     <img src="data:@dataContent.MediaType;base64,@dataContent.Base64Data" />
+                    </UserMessage>
+                }
+            }
+        }
+
+}
+    <LoadingIndicator IsLoading="@isLoading" StreamingText="@streamingText" />
+</ChatMessageWrapper>
+<ChatInput OnSendMessage="HandleSendMessage" 
+    IsLoading="@isLoading" OnFileAttachment="GetFileData" />
+
+@code {
+
+string? streamingText;
+private IChatClient ai;
+List<ChatMessage> history = [];  
+public Chat(IChatClient client)
+{
+    ai = client;
+}
+    bool isLoading = false;
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        // Logic to handle the sent message
+          
+        ChatMessage systemMessage = new ChatMessage(
+            ChatRole.System,
+            "You are a helpful assistant."
+            );
+            history.Add(systemMessage);
+            ChatResponse response = await ai.GetResponseAsync(history);
+            history.AddMessages(response);
+        isLoading = false;
+    }
+
+    private async Task HandleSendMessage(string message)
+    {
+        isLoading = true;
+        // Logic to handle the sent message
+        ChatMessage userMessage = new ChatMessage(ChatRole.User, message);
+        history.Add(userMessage);  
+        var responseText = new TextContent("");
+        var currentResponseMessage = new ChatMessage(ChatRole.Assistant, [responseText]);   
+        await foreach (var chunk in ai.GetStreamingResponseAsync(history))
+        {
+            history.AddMessages(chunk, filter: c => c is not TextContent);
+            responseText.Text += chunk.Text;
+            streamingText = responseText.Text;
+            StateHasChanged();
+            await Task.Delay(1);
+        }
+        history.Add(currentResponseMessage);
+        isLoading = false;
+    }
+
+    private void HandleSendImage(byte[] imageBytes, string mediaType)
+    {
+        ChatMessage imageMessage = new ChatMessage() { Role = ChatRole.User};
+        DataContent dataContent = new DataContent(imageBytes, mediaType);
+        imageMessage.Contents.Add(dataContent);
+        history.Add(imageMessage);
+    }
+
+    private async Task GetFileData(InputFileChangeEventArgs e)
+    {
+        isLoading = true;
+
+        if (e is null) return;
+        // Fully flush out the uploaded file Stream into a MemoryStream then copy into the byte[]
+        var file = e.File;
+        var fileContent = new StreamContent(file.OpenReadStream());
+
+        using var ms = new MemoryStream();
+
+        byte[]? imgBytes = null;
+        await fileContent.CopyToAsync(ms);
+        imgBytes = ms.ToArray();
+
+        HandleSendImage(imgBytes, file.ContentType);
+        isLoading = false;
+    }
+}

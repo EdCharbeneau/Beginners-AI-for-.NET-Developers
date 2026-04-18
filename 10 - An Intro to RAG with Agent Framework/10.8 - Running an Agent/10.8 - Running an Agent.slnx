@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Running an Agent - end/">
+    <Project Path="Running an Agent - end/MyFirstChatUI.csproj" />
+  </Folder>
+  <Folder Name="/Running an Agent - Start/">
+    <Project Path="Running an Agent - Start/MyFirstChatUI.csproj" />
+  </Folder>
+</Solution>

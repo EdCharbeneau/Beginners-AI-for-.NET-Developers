@@ -1,0 +1,30 @@
+@using Microsoft.AspNetCore.Components.Forms
+
+<div>
+    <!-- inputs -->
+    <b>Raw Text</b>
+    <div class="card k-border-info">
+        <EditForm Model="@model" OnSubmit="HandleSubmit" FormName="TokenizerForm">
+            <div>
+                <label for="inputText">Enter text here to see it tokenized:</label>
+                <textarea id="inputText" @bind="@model.InputText"></textarea>
+            </div>
+            <button type="submit">Tokenize</button>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+
+    InputModel model = new();
+
+    [Parameter]
+    public EventCallback<string> OnSubmit { get; set; }
+
+    private async Task HandleSubmit() => await OnSubmit.InvokeAsync(model.InputText);
+
+    record InputModel()
+    {
+        public string InputText { get; set; } = "Text tokenization is the process of splitting a string into a list of tokens.";
+    }
+}

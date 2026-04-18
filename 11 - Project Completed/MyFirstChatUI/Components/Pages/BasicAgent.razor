@@ -1,0 +1,45 @@
+﻿@page "/agent"
+@using Microsoft.Extensions.AI
+@using MyFirstChatUI.Components.Listing
+@using MyFirstChatUI.Models
+@inject CoffeeData CoffeeDataService
+
+<PageTitle>Card Display - Home</PageTitle>
+
+<div class="container mx-auto px-4 py-8">
+    <div class="text-center mb-8">
+        <h1 class="text-4xl font-bold text-gray-800 mb-4">Card Gallery</h1>
+        <p class="text-lg text-gray-600">Explore our collection of featured coffees</p>
+    </div>
+
+    <CardList Data="Cards" OnLoad="LoadData" IsLoading="isLoading" />
+</div>
+
+@code {
+    private bool isLoading = false;
+    private List<CardData> Cards = [];
+    private IChatClient ai;
+    public BasicAgent(IChatClient client)
+    {
+        ai = client;
+    }
+    private async Task LoadData()
+    {
+        isLoading = true;
+        ChatMessage systemMessage = new(ChatRole.System, agentPrompt);
+        var markdownContents = await CoffeeDataService.ReadMarkdownFilesAsync();
+        foreach (var content in markdownContents)
+        {
+            ChatMessage userMessage = new(ChatRole.User, content);
+            var response = await ai.GetResponseAsync<CardData>([systemMessage, userMessage]);
+            response.TryGetResult(out CardData? result);
+                if (result is CardData { Description: not null })
+                {
+                    Cards.Add(result);
+                    StateHasChanged();
+                }
+            }
+            isLoading = false;
+    }
+
+}

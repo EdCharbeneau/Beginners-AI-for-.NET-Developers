@@ -1,0 +1,24 @@
+﻿@if (IsLoading)
+{
+    <div class="flex items-start space-x-2">
+        <img src="/my-dotnet-bot.png"
+             alt="Bot"
+             class="w-8 h-8 rounded-full object-cover">
+        <div class="bg-white rounded-lg rounded-tl-none p-3 shadow-md">
+            @StreamingText
+            <div class="typing-indicator">
+                <span>•</span>
+                <span>•</span>
+                <span>•</span>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public bool IsLoading { get; set; } = false;
+
+    [Parameter]
+    public string? StreamingText { get; set; } 
+}

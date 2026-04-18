@@ -1,0 +1,18 @@
+﻿@if (IsLoading)
+{
+    <div class="bg-gray-200 animate-pulse rounded-lg shadow-md overflow-hidden">
+        <div class="h-48 bg-gray-300"></div>
+        <div class="p-6">
+            <div class="h-6 bg-gray-400 rounded w-3/4 mb-2"></div>
+            <div class="h-4 bg-gray-300 rounded w-full mb-4"></div>
+            <div class="flex gap-2">
+                <div class="h-4 w-16 bg-gray-300 rounded-full"></div>
+                <div class="h-4 w-12 bg-gray-300 rounded-full"></div>
+            </div>
+        </div>
+    </div>
+}
+@code {
+    [Parameter]
+    public bool IsLoading { get; set; } = true;
+}

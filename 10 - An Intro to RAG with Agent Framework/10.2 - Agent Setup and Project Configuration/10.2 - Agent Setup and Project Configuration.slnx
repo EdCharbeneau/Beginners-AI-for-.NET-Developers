@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Agent Setup and Project Configuration - End/">
+    <Project Path="Agent Setup and Project Configuration - End/MyFirstChatUI.csproj" />
+  </Folder>
+  <Folder Name="/Agent Setup and Project Configuration - start/">
+    <Project Path="Agent Setup and Project Configuration - start/MyFirstChatUI.csproj" />
+  </Folder>
+</Solution>

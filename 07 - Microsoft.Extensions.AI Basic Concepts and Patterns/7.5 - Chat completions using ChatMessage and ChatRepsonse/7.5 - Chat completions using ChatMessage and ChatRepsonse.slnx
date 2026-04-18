@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Chat completions using ChatMessage and ChatRepsonse - End/">
+    <Project Path="Chat completions using ChatMessage and ChatRepsonse - End/MyFirstChat.csproj" />
+  </Folder>
+  <Folder Name="/Chat completions using ChatMessage and ChatRepsonse - Start/">
+    <Project Path="Chat completions using ChatMessage and ChatRepsonse - Start/MyFirstChat.csproj" />
+  </Folder>
+</Solution>

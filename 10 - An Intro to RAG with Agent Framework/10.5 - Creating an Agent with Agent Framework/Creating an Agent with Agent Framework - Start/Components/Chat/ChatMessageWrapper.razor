@@ -1,0 +1,9 @@
+﻿<div class="flex-1 overflow-y-auto p-4 chat-container">
+    <div class="max-w-4xl mx-auto space-y-4">
+        @ChildContent
+    </div>
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+}

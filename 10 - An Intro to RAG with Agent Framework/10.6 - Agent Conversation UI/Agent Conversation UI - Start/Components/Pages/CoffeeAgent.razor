@@ -1,0 +1,29 @@
+﻿@page "/coffee-agent"
+@using MyFirstChatUI.Models
+
+@inject CoffeeData CoffeeDataService
+
+<PageTitle>Coffee Data</PageTitle>
+
+<ChatMessageWrapper>
+    <LoadingIndicator IsLoading="true" StreamingText="" />
+</ChatMessageWrapper>
+
+<ChatInput OnSendMessage="HandleSendMessage" IsLoading="true" />
+
+@code {
+#pragma warning disable OPENAI001
+#pragma warning disable SKEXP0110
+
+
+    protected override async Task OnInitializedAsync()
+    {
+    }
+
+    public async Task HandleSendMessage(string prompt)
+    {
+    }
+
+#pragma warning restore SKEXP0110
+#pragma warning restore OPENAI001
+}

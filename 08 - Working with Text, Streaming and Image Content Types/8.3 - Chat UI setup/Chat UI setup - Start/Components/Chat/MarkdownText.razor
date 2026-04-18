@@ -1,0 +1,13 @@
+﻿@using Markdig
+
+@((MarkupString)Markdown.ToHtml(Text ?? "", pipeline))
+
+@code {
+
+    [Parameter]
+    public string? Text { get; set; }
+
+    MarkdownPipeline pipeline = new MarkdownPipelineBuilder()
+        .UseFootnotes()
+          .Build();
+}

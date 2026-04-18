@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Creating an Agent with Agent Framework - end/">
+    <Project Path="Creating an Agent with Agent Framework - end/MyFirstChatUI.csproj" />
+  </Folder>
+  <Folder Name="/Creating an Agent with Agent Framework - Start/">
+    <Project Path="Creating an Agent with Agent Framework - Start/MyFirstChatUI.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,103 @@
+@page "/coffee"
+@using MyFirstChatUI.Models
+@inject CoffeeData CoffeeDataService
+
+<PageTitle>Coffee Data</PageTitle>
+
+<div class="container mx-auto px-4 py-8">
+    <div class="text-center mb-8">
+        <h1 class="text-4xl font-bold text-gray-800 mb-4">Coffee Data</h1>
+        <p class="text-lg text-gray-600">Reading markdown files from wwwroot/data</p>
+    </div>
+
+    @if (isLoading)
+    {
+        <div class="flex justify-center items-center py-8">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        </div>
+    }
+    else if (markdownContents.Any())
+    {
+        <div class="space-y-6">
+            <div class="bg-blue-50 p-4 rounded-lg">
+                <h2 class="text-xl font-semibold mb-2">Summary</h2>
+                <p class="text-gray-700">Found <strong>@markdownContents.Length</strong> markdown files</p>
+            </div>
+
+            <div class="grid grid-cols-4 gap-6 h-[70vh]">
+                <!-- File Names Column -->
+                <div class="bg-white rounded-lg shadow-md p-4">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Coffee Files</h3>
+                    <div class="space-y-2 overflow-y-auto max-h-full">
+                        @for (int i = 0; i < fileNames.Length; i++)
+                        {
+                            var fileName = fileNames[i];
+                            var index = i;
+                            
+                            <button @onclick="() => selectedFileIndex = index" 
+                                    class="w-full text-left p-3 rounded border transition-colors @(selectedFileIndex == index ? "bg-blue-100 border-blue-300" : "bg-gray-50 border-gray-200 hover:bg-gray-100")">
+                                <div class="text-sm font-medium text-gray-800 break-words">@fileName</div>
+                            </button>
+                        }
+                    </div>
+                </div>
+
+                <!-- Markdown Content Column -->
+                <div class="bg-white rounded-lg shadow-md p-6 col-span-3">
+                    @if (selectedFileIndex >= 0 && selectedFileIndex < markdownContents.Length)
+                    {
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">@fileNames[selectedFileIndex]</h3>
+                        <div class="bg-gray-50 p-4 rounded border overflow-auto max-h-full">
+                            <pre class="text-sm text-gray-700 whitespace-pre-wrap">@markdownContents[selectedFileIndex]</pre>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="flex items-center justify-center h-full text-gray-500">
+                            <p>Select a coffee file to view its content</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-8">
+            <p class="text-gray-600">No markdown files found in wwwroot/data directory.</p>
+        </div>
+    }
+</div>
+
+@code {
+    private string[] markdownContents = Array.Empty<string>();
+    private string[] fileNames = Array.Empty<string>();
+    private bool isLoading = true;
+    private int selectedFileIndex = -1;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            // Get file names first
+            fileNames = CoffeeDataService.GetMarkdownFileNames();
+            
+            // Read all markdown files
+            markdownContents = await CoffeeDataService.ReadMarkdownFilesAsync();
+            
+            // Select the first file by default if any files are available
+            if (markdownContents.Length > 0)
+            {
+                selectedFileIndex = 0;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading markdown files: {ex.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}

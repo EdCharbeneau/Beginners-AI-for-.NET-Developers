@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Creating OpenAI Clients - End/">
+    <Project Path="Creating OpenAI Clients - End/MyFirstChatUI.csproj" />
+  </Folder>
+  <Folder Name="/Creating OpenAI Clients - Start/">
+    <Project Path="Creating OpenAI Clients - Start/MyFirstChatUI.csproj" />
+  </Folder>
+</Solution>

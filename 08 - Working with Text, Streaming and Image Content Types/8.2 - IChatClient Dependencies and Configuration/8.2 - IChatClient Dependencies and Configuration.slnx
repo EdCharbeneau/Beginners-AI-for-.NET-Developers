@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/IChatClient Dependencies and Configuration - End/">
+    <Project Path="IChatClient Dependencies and Configuration - End/MyFirstChatUI.csproj" />
+  </Folder>
+  <Folder Name="/IChatClient Dependencies and Configuration - Start/">
+    <Project Path="IChatClient Dependencies and Configuration - Start/MyFirstChatUI.csproj" />
+  </Folder>
+</Solution>
