@@ -57,10 +57,12 @@ jobs:
       - name: Create zip for folder
         id: create-zip
         if: matrix.folder != '__none__'
+        env:
+          FOLDER_NAME: ${{ matrix.folder }}
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          $folderName = '${{ matrix.folder }}'
+          $folderName = $env:FOLDER_NAME
           $folderPath = Join-Path (Get-Location) $folderName
           $outputDir = Join-Path (Get-Location) 'zips'
           New-Item -ItemType Directory -Path $outputDir -Force | Out-Null
