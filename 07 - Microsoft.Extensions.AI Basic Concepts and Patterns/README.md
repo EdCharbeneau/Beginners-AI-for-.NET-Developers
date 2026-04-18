@@ -1,5 +1,7 @@
 # Microsoft.Extensions.AI Basic Concepts
 
+GitHub repository: https://github.com/EdCharbeneau/Beginners-AI-for-.NET-Developers
+
 This folder contains the code for the "Microsoft.Extensions.AI Basic Concepts" module. The module is designed to help you understand how to build chat applications using Microsoft.Extensions.AI.
 
 Each folder corresponds to the video sections in the module, and contains the code for the respective section. The structure of the folders is as follows. The "Start" folder contains the code before the changes are made in the video, and the "End" folder contains the code after the changes are made. You can use these folders to follow along with the video and see how the code evolves throughout the module.

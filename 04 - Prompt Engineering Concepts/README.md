@@ -1,3 +1,5 @@
+GitHub repository: https://github.com/EdCharbeneau/Beginners-AI-for-.NET-Developers
+
 Each folder in this repository contains a set of prompts related to a specific concept in prompt engineering. The prompts are designed to help you understand and apply the concepts effectively. You can use these prompts as a starting point for your own projects or as a reference for best practices in prompt engineering.
 
 In the root folder there are two important files which are used in multiple prompts across the repository:
