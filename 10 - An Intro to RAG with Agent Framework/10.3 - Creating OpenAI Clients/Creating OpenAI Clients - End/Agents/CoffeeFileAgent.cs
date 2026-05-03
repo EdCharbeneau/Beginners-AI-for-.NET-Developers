@@ -1,6 +1,5 @@
 using MyFirstChatUI.Models;
 using OpenAI;
-using OpenAI.Assistants;
 using OpenAI.Files;
 using OpenAI.Responses;
 using OpenAI.VectorStores;
@@ -22,18 +21,18 @@ public class CoffeeFileAgent
     // Service for accessing coffee data and file names.
     private readonly CoffeeData coffeeDataService;
     // Private constructor to prevent direct instantiation
-    private CoffeeFileAgent(OpenAIClient azureOpenAIClient, CoffeeData coffeeDataService)
+    private CoffeeFileAgent(OpenAIClient openAIClient, CoffeeData coffeeDataService)
     {
         this.coffeeDataService = coffeeDataService;
-        storeClient = azureOpenAIClient.GetVectorStoreClient();
-        responsesClient = azureOpenAIClient.GetResponsesClient();
-        fileClient = azureOpenAIClient.GetOpenAIFileClient();
+        storeClient = openAIClient.GetVectorStoreClient();
+        responsesClient = openAIClient.GetResponsesClient();
+        fileClient = openAIClient.GetOpenAIFileClient();
     }
 
     // Static factory method to create an instance of CoffeeFileAgent
-    public static CoffeeFileAgent CreateAsync(OpenAIClient azureOpenAIClient, CoffeeData coffeeDataService)
+    public static CoffeeFileAgent CreateAsync(OpenAIClient openAIClient, CoffeeData coffeeDataService)
     {
-        var agent = new CoffeeFileAgent(azureOpenAIClient, coffeeDataService);
+        var agent = new CoffeeFileAgent(openAIClient, coffeeDataService);
         // await agent.InitializeAsync();
         return agent;
     }

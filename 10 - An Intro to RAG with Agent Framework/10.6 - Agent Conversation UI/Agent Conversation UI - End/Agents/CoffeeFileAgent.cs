@@ -28,18 +28,18 @@ public class CoffeeFileAgent
     private string vectorStoreId = null!;
     // Private constructor to prevent direct instantiation
     public ChatClientAgent Agent { get; private set; } = null!;
-    private CoffeeFileAgent(OpenAIClient azureOpenAIClient, CoffeeData coffeeDataService)
+    private CoffeeFileAgent(OpenAIClient openAIClient, CoffeeData coffeeDataService)
     {
         this.coffeeDataService = coffeeDataService;
-        storeClient = azureOpenAIClient.GetVectorStoreClient();
-        responsesClient = azureOpenAIClient.GetResponsesClient();
-        fileClient = azureOpenAIClient.GetOpenAIFileClient();
+        storeClient = openAIClient.GetVectorStoreClient();
+        responsesClient = openAIClient.GetResponsesClient();
+        fileClient = openAIClient.GetOpenAIFileClient();
     }
 
     // Static factory method to create an instance of CoffeeFileAgent
-    public static async Task<CoffeeFileAgent> CreateAsync(OpenAIClient azureOpenAIClient, CoffeeData coffeeDataService)
+    public static async Task<CoffeeFileAgent> CreateAsync(OpenAIClient openAIClient, CoffeeData coffeeDataService)
     {
-        var agent = new CoffeeFileAgent(azureOpenAIClient, coffeeDataService);
+        var agent = new CoffeeFileAgent(openAIClient, coffeeDataService);
         await agent.InitializeAsync();
         return agent;
     }
